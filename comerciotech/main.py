@@ -1,4 +1,4 @@
-from clientes import *
+from cliente import *
 from productos import *
 from pedidos import *
 while True:
@@ -15,11 +15,11 @@ while True:
     input_usuario = input("Ingrese una opción: ")
     if input_usuario == "1":
         menu_productos()
-        elif input_usuario == "2":
-            menu_clientes()
-        elif input_usuario == "3":
-            menu_pedidos()
-        elif input_usuario == "4":
+    elif input_usuario == "2":
+        menu_clientes()
+    elif input_usuario == "3":
+        menu_pedidos()
+    elif input_usuario == "4":
             print("Saliendo del programa...")
             break 
 
