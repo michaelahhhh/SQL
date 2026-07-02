@@ -15,3 +15,10 @@ def agregar_cliente():
 
     resultado = coleccion.insert_one(cliente)
     print(f"Cliente insertado con _id {resultado.inserted_id}")
+
+def mostrar_clientes():
+    hay=False
+    for c in coleccion.find():
+        hay=True
+        print(c)
+    if not hay: print("Sin clientes")
