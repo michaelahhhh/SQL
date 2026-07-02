@@ -1,64 +1,93 @@
-from http import client
-from conexion import clientes
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-MongoClient = MongoClient("mongodb://localhost:27017/")
-db = MongoClient["comerciotech"]
+client = MongoClient("mongodb://localhost:27017/")
+db = client["comerciotech"]
 coleccion = db["clientes"]
 
-def agregar_cliente():
 
-    print("Ingrese los datos del cliente:")
+def agregar_cliente():
+    print("\n--- AGREGAR CLIENTE ---")
+
     nombre = input("Nombre: ")
-    Correo = input("Email: ")
+    email = input("Email: ")
     telefono = input("Teléfono: ")
 
     cliente = {
-        "nombre": nombre,
-        "email": Correo,
-        "telefono": telefono
-    }
-
-    resultado = coleccion.insert_one(cliente)
-    print(f"Cliente insertado con _id {resultado.inserted_id}")
-
-def mostrar_clientes():
-
-    print ("\nLista de clientes:")
-    clientes_guardados = list(coleccion.find())
-
-    if not clientes_guardados:
-        print("No hay clientes registrados en la base de datos.")
-        return
-        
-def modificar_cliente():
-    cliente_id = input("Ingrese el _id del cliente a modificar: ")
-    cliente = coleccion.find_one({"_id": ObjectId(cliente_id)})
-
-    if not cliente:
-        print("Cliente no encontrado.")
-        return
-
-    print("Ingrese los nuevos datos del cliente (deje en blanco para mantener el valor actual):")
-    nombre = input(f"Nombre ({cliente['nombre']}): ") or cliente['nombre']
-    email = input(f"Email ({cliente['email']}): ") or cliente['email']
-    telefono = input(f"Teléfono ({cliente['telefono']}): ") or cliente['telefono']
-
-    cliente_actualizado = {
         "nombre": nombre,
         "email": email,
         "telefono": telefono
     }
 
-    coleccion.update_one({"_id": ObjectId(cliente_id)}, {"$set": cliente_actualizado})
+    resultado = coleccion.insert_one(cliente)
+    print(f"\nCliente agregado correctamente.")
+    print(f"ID generado: {resultado.inserted_id}")
+
+
+def mostrar_clientes():
+    print("\n--- LISTA DE CLIENTES ---")
+
+    clientes = list(coleccion.find())
+
+    if len(clientes) == 0:
+        print("No hay clientes registrados.")
+        return
+
+    for cliente in clientes:
+        print(f"""
+ID: {cliente['_id']}
+Nombre: {cliente['nombre']}
+Email: {cliente['email']}
+Teléfono: {cliente['telefono']}
+-----------------------------------
+""")
+
+
+def modificar_cliente():
+    print("\n--- MODIFICAR CLIENTE ---")
+
+    cliente_id = input("Ingrese el ID del cliente: ")
+
+    try:
+        cliente = coleccion.find_one({"_id": ObjectId(cliente_id)})
+    except:
+        print("ID inválido.")
+        return
+
+    if cliente is None:
+        print("Cliente no encontrado.")
+        return
+
+    nombre = input(f"Nombre ({cliente['nombre']}): ")
+    email = input(f"Email ({cliente['email']}): ")
+    telefono = input(f"Teléfono ({cliente['telefono']}): ")
+
+    datos_actualizados = {
+        "nombre": nombre if nombre else cliente["nombre"],
+        "email": email if email else cliente["email"],
+        "telefono": telefono if telefono else cliente["telefono"]
+    }
+
+    coleccion.update_one(
+        {"_id": ObjectId(cliente_id)},
+        {"$set": datos_actualizados}
+    )
+
     print("Cliente actualizado correctamente.")
 
+
 def eliminar_cliente():
-    cliente_id = input("Ingrese el _id del cliente a eliminar: ")
-    resultado = coleccion.delete_one({"_id": ObjectId(cliente_id)})
+    print("\n--- ELIMINAR CLIENTE ---")
+
+    cliente_id = input("Ingrese el ID del cliente: ")
+
+    try:
+        resultado = coleccion.delete_one({"_id": ObjectId(cliente_id)})
+    except:
+        print("ID inválido.")
+        return
 
     if resultado.deleted_count > 0:
         print("Cliente eliminado correctamente.")
     else:
-        print("No se encontró ningún cliente con ese _id.")
+        print("Cliente no encontrado.")
