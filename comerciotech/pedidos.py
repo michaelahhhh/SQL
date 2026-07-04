@@ -12,12 +12,16 @@ def agregar_pedido():
     cliente_id = input("ID del cliente: ")
     producto_id = input("ID del producto: ")
     cantidad = int(input("Cantidad: "))
+    estado = input("Estado del pedido: ")
+    total = float(input("Total del pedido: "))
     fecha = input("Fecha (YYYY-MM-DD): ")
 
     pedido = {
         "cliente_id": cliente_id,
         "producto_id": producto_id,
         "cantidad": cantidad,
+        "estado": estado,
+        "total": total,
         "fecha": fecha
     }
 
@@ -37,6 +41,8 @@ def mostrar_pedidos():
         print(f"ID del cliente: {pedido.get('cliente_id')}")
         print(f"ID del producto: {pedido.get('producto_id')}")
         print(f"Cantidad: {pedido.get('cantidad')}")
+        print(f"Estado: {pedido.get('estado')}")
+        print(f"Total: {pedido.get('total')}")
         print(f"Fecha: {pedido.get('fecha')}")
 
 def modificar_pedido():
@@ -51,12 +57,16 @@ def modificar_pedido():
     cliente_id = input(f"ID del cliente ({pedido['cliente_id']}): ") or pedido['cliente_id']
     producto_id = input(f"ID del producto ({pedido['producto_id']}): ") or pedido['producto_id']
     cantidad = input(f"Cantidad ({pedido['cantidad']}): ") or pedido['cantidad']
+    estado = input(f"Estado ({pedido['estado']}): ") or pedido['estado']
+    total = input(f"Total ({pedido['total']}): ") or pedido['total']
     fecha = input(f"Fecha ({pedido['fecha']}): ") or pedido['fecha']
 
     pedido_actualizado = {
         "cliente_id": cliente_id,
         "producto_id": producto_id,
         "cantidad": cantidad,
+        "estado": estado,
+        "total": total,
         "fecha": fecha
     }
 

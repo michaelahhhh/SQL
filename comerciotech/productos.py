@@ -19,12 +19,14 @@ def agregar_producto():
         es_consola = input("¿Es una consola? (s/n): ").strip().lower() == "s"
         nombre = input("Nombre: ").strip()
         marca = input("Marca: ").strip()
+        categoria = input("Categoría: ").strip()
         precio = float(input("Precio: ").strip() or 0)
         stock = int(input("Stock: ").strip() or 0)
 
         producto = {
             "Nombre": nombre,
             "Marca": marca,
+            "Categoría": categoria,
             "Precio": precio,
             "Stock": stock,
         }
@@ -58,6 +60,7 @@ def mostrar_productos():
         print("-" * 40)
         print(f"_id: {producto.get('_id')}")
         print(f"Nombre: {producto.get('Nombre')}")
+        print(f"Categoría: {producto.get('Categoría')}")
         print(f"Marca: {producto.get('Marca')}")
         print(f"Precio: {producto.get('Precio')}")
         print(f"Stock: {producto.get('Stock')}")
@@ -84,6 +87,7 @@ def actualizar_producto():
     print("Datos actuales del producto:")
     print(f"Nombre: {producto_actual.get('Nombre')}")
     print(f"Marca: {producto_actual.get('Marca')}")
+    print(f"Categoría: {producto_actual.get('Categoría')}")
     print(f"Precio: {producto_actual.get('Precio')}")
     print(f"Stock: {producto_actual.get('Stock')}")
 
@@ -95,6 +99,7 @@ def actualizar_producto():
 
     nombre = input("Nuevo nombre (Enter para mantener): ").strip()
     marca = input("Nueva marca (Enter para mantener): ").strip()
+    categoria = input("Nueva categoría (Enter para mantener): ").strip()
     precio_texto = input("Nuevo precio (Enter para mantener): ").strip()
     stock_texto = input("Nuevo stock (Enter para mantener): ").strip()
 
@@ -120,6 +125,9 @@ def actualizar_producto():
 
     if stock_texto:
         cambios["Stock"] = int(stock_texto)
+
+    if categoria:
+        cambios["Categoría"] = categoria
 
     if es_consola == "s" and (almacenamiento or color):
         nueva_especificaciones = especificaciones.copy()
