@@ -10,13 +10,19 @@ def agregar_cliente():
     print("\n--- AGREGAR CLIENTE ---")
 
     nombre = input("Nombre: ")
+    rut = input("RUT: ")
     email = input("Email: ")
+    direccion = input("Dirección: ")
     telefono = input("Teléfono: ")
+    Fecha_registro = input("Fecha de registro (YYYY-MM-DD): ")
 
     cliente = {
         "nombre": nombre,
+        "rut": rut,
         "email": email,
-        "telefono": telefono
+        "direccion": direccion,
+        "telefono": telefono,
+        "fecha_registro": Fecha_registro
     }
 
     resultado = coleccion.insert_one(cliente)
@@ -37,8 +43,11 @@ def mostrar_clientes():
         print(f"""
 ID: {cliente['_id']}
 Nombre: {cliente['nombre']}
+RUT: {cliente['rut']}
 Email: {cliente['email']}
+Dirección: {cliente['direccion']}
 Teléfono: {cliente['telefono']}
+Fecha de registro: {cliente['fecha_registro']}
 -----------------------------------
 """)
 
@@ -59,13 +68,19 @@ def modificar_cliente():
         return
 
     nombre = input(f"Nombre ({cliente['nombre']}): ")
+    rut = input(f"RUT ({cliente['rut']}): ")
     email = input(f"Email ({cliente['email']}): ")
     telefono = input(f"Teléfono ({cliente['telefono']}): ")
+    direccion = input(f"Dirección ({cliente['direccion']}): ")
+    fecha_registro = input(f"Fecha de registro ({cliente['fecha_registro']}): ")
 
     datos_actualizados = {
         "nombre": nombre if nombre else cliente["nombre"],
+        "rut": rut if rut else cliente["rut"],
         "email": email if email else cliente["email"],
-        "telefono": telefono if telefono else cliente["telefono"]
+        "direccion": direccion if direccion else cliente["direccion"],
+        "telefono": telefono if telefono else cliente["telefono"],
+        "fecha_registro": fecha_registro if fecha_registro else cliente["fecha_registro"]
     }
 
     coleccion.update_one(
